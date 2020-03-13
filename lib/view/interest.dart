@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 
+import 'package:bithm/helper/translator.dart';
+
 class Interest extends StatefulWidget {
+  final String language;
+
+  Interest({Key key, @required this.language}) : super(key : key);
+
   @override
   _InterestState createState() => _InterestState();
 }
 
 class _InterestState extends State<Interest> {
+  final Translator translator = Translator();
+
   double loanedAmount = 0.00;
   double payableAmount = 0.00;
   double payableAmountPerDay = 0.00;
@@ -24,18 +32,17 @@ class _InterestState extends State<Interest> {
   _setValues(double amountVal, double interestVal, double daysVal) {
     if (amountVal != null) {
       amount = amountVal;
-      _compute();
     }
 
     if (interestVal != null) {
       interest = interestVal;
-      _compute();
     }
 
     if (daysVal != null) {
       days = daysVal;
-      _compute();
     }
+
+    _compute();
   }
 
   _compute() {
@@ -47,6 +54,7 @@ class _InterestState extends State<Interest> {
     payableAmountPerDay = amountPerDay + (amountPerDay * (interest / 100));
     incomeAmount = amount * (interest / 100);
     incomeAmountPerDay = amountPerDay * (interest / 100);
+    
     setState(() {
       loanedAmount = amount;
       payableAmount = payableAmount;
@@ -56,12 +64,17 @@ class _InterestState extends State<Interest> {
     });
   }
 
+  String _translate(String value) {
+    return translator.translate(widget.language, value);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
       Padding(
         padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
-        child: Text("Interest Calculator", style: TextStyle(fontSize:  20))
+        child: Text(_translate("Interest Calculator"), style: TextStyle(fontSize:  20))
       ),
       Padding(
         padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
@@ -73,8 +86,8 @@ class _InterestState extends State<Interest> {
               ),
               borderRadius: BorderRadius.circular(10.0),
             ),
-            labelText: "Amount",
-            hintText: "Amount"
+            labelText: _translate("Amount"),
+            hintText: _translate("Amount")
           ),
           keyboardType: TextInputType.number,
           onChanged: (amount) {
@@ -92,8 +105,8 @@ class _InterestState extends State<Interest> {
               ),
               borderRadius: BorderRadius.circular(10.0),
             ),
-            labelText: "Interest Rate (in %)",
-            hintText: "Interest Rate (in %)"
+            labelText: _translate("Interest Rate (in %)"),
+            hintText: _translate("Interest Rate (in %)")
           ),
           keyboardType: TextInputType.number,
           onChanged: (interest) {
@@ -111,8 +124,8 @@ class _InterestState extends State<Interest> {
               ),
               borderRadius: BorderRadius.circular(10.0),
             ),
-            labelText: "How many days?",
-            hintText: "How many days?"
+            labelText: _translate("How many days?"),
+            hintText: _translate("How many days?")
           ),
           keyboardType: TextInputType.number,
           onChanged: (days) {
@@ -126,14 +139,14 @@ class _InterestState extends State<Interest> {
       ),
       Padding(
         padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
-        child: Text("Result", style: TextStyle(fontSize:  20))
+        child: Text(_translate("Result"), style: TextStyle(fontSize:  20))
       ),
       Padding(
         padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Loaned Amount", style: TextStyle(fontSize: 16)),
+            Text(_translate("Loaned Amount"), style: TextStyle(fontSize: 16)),
             Text(loanedAmount.toString(), style: TextStyle(fontSize: 16, color: Colors.red))
           ]
         )
@@ -143,7 +156,7 @@ class _InterestState extends State<Interest> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Payable Amount", style: TextStyle(fontSize: 16)),
+            Text(_translate("Payable Amount"), style: TextStyle(fontSize: 16)),
             Text(payableAmount.toStringAsFixed(2), style: TextStyle(fontSize: 16, color: Colors.red))
           ]
         )
@@ -153,7 +166,7 @@ class _InterestState extends State<Interest> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Payable per day", style: TextStyle(fontSize: 16)),
+            Text(_translate("Payable per day"), style: TextStyle(fontSize: 16)),
             Text(payableAmountPerDay.toStringAsFixed(2), style: TextStyle(fontSize: 16, color: Colors.red))
           ]
         )
@@ -163,7 +176,7 @@ class _InterestState extends State<Interest> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Income", style: TextStyle(fontSize: 16)),
+            Text(_translate("Income"), style: TextStyle(fontSize: 16)),
             Text(incomeAmount.toStringAsFixed(2), style: TextStyle(fontSize: 16, color: Colors.green))
           ]
         )
@@ -173,7 +186,7 @@ class _InterestState extends State<Interest> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Income per day", style: TextStyle(fontSize: 16)),
+            Text(_translate("Income per day"), style: TextStyle(fontSize: 16)),
             Text(incomeAmountPerDay.toStringAsFixed(2), style: TextStyle(fontSize: 16, color: Colors.green))
           ]
         )

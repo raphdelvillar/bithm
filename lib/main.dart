@@ -5,12 +5,14 @@ import 'package:bithm/home.dart';
 void main() => runApp(App());
 
 class App extends StatelessWidget {
+  final String title = "Bithm";
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Bithm',
+      title: title,
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: Colors.lightGreen[800],
@@ -25,7 +27,7 @@ class App extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
       ),
-      home: HomePage(),
+      home: HomePage(title: title),
     );
   }
 }
